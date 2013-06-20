@@ -56,7 +56,8 @@
 										monitorTimeout:	2500, 	// 2.5 seconds
 										minHeight:		1,	  	// 1px
 										minWidth:		1	  	// 1px	
-									  } 
+									  },
+				smartDisabled       : false
 
 			}, options);
 				
@@ -106,7 +107,7 @@
 							rCallback = xSmart.callback ? xSmart.callback : false;
 						}
 						
-						if(es.httpCache) { // http cache process here
+						if(es.httpCache || es.smartDisabled) { // http cache process here
 						
 							xhrEtag = xhr.getResponseHeader("ETag");
 							xhrLM = xhr.getResponseHeader("Last-Modified");
@@ -116,9 +117,9 @@
 							es.lastModified =  xhrLM   ? xhrLM   : es.lastModified;
 						}
 						
-						if ( 	dataNotModified || 
+						if ( 	!es.smartDisabled && (dataNotModified || 
 								es.prevContent == xhr.responseText || 
-								xhr.status == 304 ) { // data is not changed 
+								xhr.status == 304 )) { // data is not changed 
 								
 								if(!es.stopFlag) {
 									clearTimeout(es.h);
